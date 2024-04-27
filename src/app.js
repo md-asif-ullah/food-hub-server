@@ -4,6 +4,7 @@ import morgan from "morgan";
 import rateLimit from "express-rate-limit";
 import cors from "cors";
 import createError from "http-errors";
+import userRouter from "./routes/userRoutes.js";
 const app = express();
 
 const limiter = rateLimit({
@@ -25,6 +26,9 @@ app.use(limiter);
 app.get("/", (req, res) => {
     res.send("Hello World!");
 });
+app.use("/api/users", userRouter);
+
+//error handling middleware
 
 app.use((err, req, res, next) => {
     return next(createError({ statusCode: err.status, message: err.message }));
