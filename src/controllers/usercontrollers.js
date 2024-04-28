@@ -32,4 +32,20 @@ const getUsers = async (req, res, next) => {
     }
 };
 
-export { seedUser, getUsers };
+const getuserById = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+
+        const user = await User.findById(id).select("-password");
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "User fetched successfully",
+            payload: user,
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export { seedUser, getUsers, getuserById };
