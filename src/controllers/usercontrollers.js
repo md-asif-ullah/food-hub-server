@@ -18,4 +18,18 @@ const seedUser = async (req, res, next) => {
     }
 };
 
-export { seedUser };
+const getUsers = async (req, res, next) => {
+    try {
+        const users = await User.find().select("-password");
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "Users fetched successfully",
+            payload: users,
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export { seedUser, getUsers };
