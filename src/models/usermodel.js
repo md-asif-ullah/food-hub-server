@@ -40,6 +40,13 @@ const userSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        verificationCode: {
+            type: String,
+        },
+        isVarified: {
+            type: Boolean,
+            default: false,
+        },
     },
     { timestamps: true }
 );
