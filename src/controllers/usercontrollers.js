@@ -49,6 +49,27 @@ const getuserById = async (req, res, next) => {
     }
 };
 
+const deleteUserById = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+
+        const deletUser = await User.findByIdAndDelete(id);
+
+        if (!deletUser) {
+            return errorResponse(res, {
+                statusCode: 404,
+                message: "User not found",
+            });
+        }
+        return successResponse(res, {
+            statusCode: 200,
+            message: "User deleted successfully",
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
 const processRegister = async (req, res, next) => {
     try {
         const verificationCode = Math.floor(100000 + Math.random() * 900000);
@@ -105,4 +126,4 @@ const processRegister = async (req, res, next) => {
     }
 };
 
-export { seedUser, getUsers, getuserById, processRegister };
+export { seedUser, getUsers, getuserById, deleteUserById, processRegister };
