@@ -5,6 +5,7 @@ import {
     getuserById,
     processRegister,
     seedUser,
+    verifyUser,
 } from "../controllers/usercontrollers.js";
 
 const userRouter = express.Router();
@@ -14,5 +15,6 @@ userRouter.get("/", getUsers);
 userRouter.get("/:id", getuserById);
 userRouter.delete("/:id", deleteUserById);
 userRouter.post("/process-register", processRegister);
+userRouter.post("/vefity", verifyUser);
 
 export default userRouter;

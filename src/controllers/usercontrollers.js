@@ -73,6 +73,7 @@ const deleteUserById = async (req, res, next) => {
 const processRegister = async (req, res, next) => {
     try {
         const verificationCode = Math.floor(100000 + Math.random() * 900000);
+        const verificationCodeExpires = Date.now() + Date.now() + 120000;
 
         const { name, email, password } = req.body;
 
@@ -87,6 +88,8 @@ const processRegister = async (req, res, next) => {
                 });
             } else {
                 userExistVerified.verificationCode = verificationCode;
+                userExistVerified.verificationCodeExpires =
+                    verificationCodeExpires;
                 await userExistVerified.save();
             }
         } else {
@@ -95,6 +98,7 @@ const processRegister = async (req, res, next) => {
                 email,
                 password,
                 verificationCode,
+                verificationCodeExpires,
             });
 
             await newUser.save();
@@ -126,4 +130,49 @@ const processRegister = async (req, res, next) => {
     }
 };
 
-export { seedUser, getUsers, getuserById, deleteUserById, processRegister };
+const verifyUser = async (req, res, next) => {
+    try {
+        const { email, verificationCode } = req.body;
+
+        const varifiedUser = await User.findOne({ email });
+
+        if (!varifiedUser) {
+            return errorResponse(res, {
+                statusCode: 404,
+                message: "User not found",
+            });
+        }
+
+        if (varifiedUser.verificationCode !== verificationCode) {
+            return errorResponse(res, {
+                statusCode: 400,
+                message: "Invalid verification code",
+            });
+        }
+        if (varifiedUser.verificationCodeExpires < Date.now()) {
+            return errorResponse(res, {
+                statusCode: 400,
+                message: "Verification code expired",
+            });
+        }
+        varifiedUser.isVarified = true;
+
+        await varifiedUser.save();
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "User verified successfully",
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export {
+    seedUser,
+    getUsers,
+    getuserById,
+    deleteUserById,
+    processRegister,
+    verifyUser,
+};
