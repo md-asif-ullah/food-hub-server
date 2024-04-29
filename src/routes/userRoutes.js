@@ -5,6 +5,7 @@ import {
     getuserById,
     processRegister,
     seedUser,
+    updateUserById,
     verifyUser,
 } from "../controllers/usercontrollers.js";
 
@@ -14,6 +15,7 @@ userRouter.get("/seed", seedUser);
 userRouter.get("/", getUsers);
 userRouter.get("/:id", getuserById);
 userRouter.delete("/:id", deleteUserById);
+userRouter.put("/:id", updateUserById);
 userRouter.post("/process-register", processRegister);
 userRouter.post("/vefity", verifyUser);
 

@@ -70,6 +70,41 @@ const deleteUserById = async (req, res, next) => {
     }
 };
 
+const updateUserById = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+
+        const updated = {};
+
+        for (let key in req.body) {
+            if (["name", "password", "address", "phone"].includes(key)) {
+                updated[key] = req.body[key];
+            }
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(id, updated, {
+            context: "query",
+            new: true,
+            runValidators: true,
+        });
+
+        if (!updatedUser) {
+            return errorResponse(res, {
+                statusCode: 500,
+                message: "Failed to update user",
+            });
+        }
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "User updated successfully",
+            payload: updatedUser,
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
 const processRegister = async (req, res, next) => {
     try {
         const verificationCode = Math.floor(100000 + Math.random() * 900000);
@@ -173,6 +208,7 @@ export {
     getUsers,
     getuserById,
     deleteUserById,
+    updateUserById,
     processRegister,
     verifyUser,
 };
