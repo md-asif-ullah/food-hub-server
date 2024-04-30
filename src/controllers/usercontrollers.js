@@ -203,6 +203,116 @@ const verifyUser = async (req, res, next) => {
     }
 };
 
+// forget password
+
+const processForgetPassword = async (req, res, next) => {
+    try {
+        const { email } = req.body;
+
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return errorResponse(res, {
+                statusCode: 404,
+                message: "User not found",
+            });
+        }
+
+        const verificationCode = Math.floor(100000 + Math.random() * 900000);
+        const verificationCodeExpires = Date.now() + Date.now() + 120000;
+
+        user.verificationCode = verificationCode;
+        user.verificationCodeExpires = verificationCodeExpires;
+
+        await user.save();
+
+        const mailData = {
+            to: email,
+            subject: "Reset Password",
+            html: `<h3>Use this verification code below to reset your password</h3>
+                <hr/>
+                <p>Your verification code is: <strong>${verificationCode}</strong></p>`,
+        };
+
+        const sendMail = await sendUserMail(mailData);
+
+        if (!sendMail) {
+            return errorResponse(res, {
+                statusCode: 500,
+                message: "Failed to send verification code",
+            });
+        }
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: `go to ${email} to verify your account`,
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+const verifyForgetPassword = async (req, res, next) => {
+    try {
+        const { email, verificationCode } = req.body;
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            return errorResponse(res, {
+                statusCode: 404,
+                message: "User not found",
+            });
+        }
+
+        if (user.verificationCode !== verificationCode) {
+            return errorResponse(res, {
+                statusCode: 400,
+                message: "Invalid verification code",
+            });
+        }
+
+        if (user.verificationCodeExpires < Date.now()) {
+            return errorResponse(res, {
+                statusCode: 400,
+                message: "Verification code expired",
+            });
+        }
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "Verification code verified successfully",
+        });
+    } catch (error) {
+        error(next);
+    }
+};
+
+const resetUserPassword = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return errorResponse(res, {
+                statusCode: 404,
+                message: "User not found",
+            });
+        }
+
+        user.password = password;
+
+        await user.save();
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "Password reset successfully",
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
 export {
     seedUser,
     getUsers,
@@ -211,4 +321,7 @@ export {
     updateUserById,
     processRegister,
     verifyUser,
+    processForgetPassword,
+    verifyForgetPassword,
+    resetUserPassword,
 };
