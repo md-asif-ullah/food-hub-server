@@ -30,6 +30,10 @@ app.use("/api/users", userRouter);
 
 //error handling middleware
 
+app.use((req, res, next) => {
+    return next(createError(404, "Not found"));
+});
+
 app.use((err, req, res, next) => {
     return next(createError({ statusCode: err.status, message: err.message }));
 });
