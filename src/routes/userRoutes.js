@@ -17,11 +17,12 @@ import {
     userRegistrationValidation,
 } from "../validations/userInputValidation.js";
 import inputErrorhandling from "../middleware/zodInputValidate.js";
+import { isAdmin, isLoggedIn } from "../middleware/auth.js";
 
 const userRouter = express.Router();
 
 userRouter.get("/seed", seedUser);
-userRouter.get("/", getUsers);
+userRouter.get("/", isLoggedIn, isAdmin, getUsers);
 userRouter.get("/:id", getuserById);
 userRouter.delete("/:id", deleteUserById);
 userRouter.put("/:id", updateUserById);

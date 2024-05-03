@@ -5,6 +5,7 @@ import rateLimit from "express-rate-limit";
 import cors from "cors";
 import createError from "http-errors";
 import userRouter from "./routes/userRoutes.js";
+import cookieParser from "cookie-parser";
 const app = express();
 
 const limiter = rateLimit({
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(limiter);
+app.use(cookieParser());
 
 //routes
 

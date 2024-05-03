@@ -319,15 +319,15 @@ const loginUser = async (req, res, next) => {
     try {
         const { email, password } = req.body;
 
-        const existingUser = await User.findOne({ email });
-        if (!existingUser) {
+        const user = await User.findOne({ email });
+        if (!user) {
             return errorResponse(res, {
                 statusCode: 404,
                 message: "User not found",
             });
         }
 
-        const isMatch = bcrypt.compareSync(password, existingUser.password);
+        const isMatch = bcrypt.compareSync(password, user.password);
 
         if (!isMatch) {
             return errorResponse(res, {
@@ -336,11 +336,7 @@ const loginUser = async (req, res, next) => {
             });
         }
 
-        const token = createJwt(
-            existingUser.email,
-            process.env.JWT_lOGIN_SECRET,
-            "1h"
-        );
+        const token = createJwt({ user }, process.env.JWT_lOGIN_SECRET, "1h");
 
         res.cookie("token", token, {
             maxAge: 3600000,

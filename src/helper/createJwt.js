@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
-const createJwt = (email, secret, expiresTime) => {
-    return jwt.sign({ email }, secret, {
+const createJwt = (payload, secret, expiresTime) => {
+    return jwt.sign(payload, secret, {
         expiresIn: expiresTime,
     });
 };

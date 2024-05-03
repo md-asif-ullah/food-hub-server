@@ -1,5 +1,4 @@
 const inputErrorhandling = (schema) => async (req, res, next) => {
-    console.log("req.body", req.body);
     try {
         await schema.parseAsync(req.body);
         return next();
