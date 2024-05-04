@@ -6,6 +6,8 @@ import cors from "cors";
 import createError from "http-errors";
 import userRouter from "./routes/userRoutes.js";
 import cookieParser from "cookie-parser";
+import authRoutes from "./routes/AuthRoutes.js";
+import { errorResponse } from "./controllers/responcesController.js";
 const app = express();
 
 const limiter = rateLimit({
@@ -29,15 +31,16 @@ app.get("/", (req, res) => {
     res.send("Hello World!");
 });
 app.use("/api/users", userRouter);
+app.use("/api/auth", authRoutes);
 
 //error handling middleware
 
 app.use((req, res, next) => {
-    return next(createError(404, "Not found"));
+    return next(createError(404, "route not found"));
 });
 
 app.use((err, req, res, next) => {
-    return next(createError({ statusCode: err.status, message: err.message }));
+    return errorResponse(res, { statusCode: err.status, message: err.message });
 });
 
 export default app;

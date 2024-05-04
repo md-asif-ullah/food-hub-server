@@ -11,13 +11,9 @@ import {
     verifyForgetPassword,
     verifyUser,
 } from "../controllers/usercontrollers.js";
-import {
-    userLoginValidation,
-    userRegistrationValidation,
-} from "../validations/userInputValidation.js";
+import { userRegistrationValidation } from "../validations/userInputValidation.js";
 import inputErrorhandling from "../middleware/zodInputValidate.js";
 import { isAdmin, isLoggedIn } from "../middleware/auth.js";
-import { loginUser } from "../controllers/AuthController.js";
 
 const userRouter = express.Router();
 
@@ -35,6 +31,5 @@ userRouter.post("/vefity", verifyUser);
 userRouter.post("/process-forget-password", processForgetPassword);
 userRouter.post("/verify-forget-password", verifyForgetPassword);
 userRouter.post("/reset-password", resetUserPassword);
-userRouter.post("/login", inputErrorhandling(userLoginValidation), loginUser);
 
 export default userRouter;

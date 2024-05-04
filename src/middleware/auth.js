@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import createError from "http-errors";
 
 const isLoggedIn = (req, res, next) => {
     try {
@@ -7,12 +8,12 @@ const isLoggedIn = (req, res, next) => {
         if (token) {
             const decoded = jwt.verify(token, process.env.JWT_lOGIN_SECRET);
             if (!decoded) {
-                res.status(401).send("Unauthorized Access");
+                res.createError(401, "Unauthorized Access");
             }
             req.user = decoded.user;
             next();
         } else {
-            res.status(401).send("Unauthorized Access");
+            res.createError(401, "Unauthorized Access");
         }
     } catch (error) {
         throw error;
@@ -26,7 +27,7 @@ const isLoggedOut = (req, res, next) => {
         if (token) {
             const decoded = jwt.verify(token, process.env.JWT_lOGIN_SECRET);
             if (decoded) {
-                req.user = decoded.user;
+                throw createError(401, "User already logged in");
             }
         }
         next();
@@ -42,7 +43,7 @@ const isAdmin = (req, res, next) => {
         if (user.isAdmin) {
             next();
         } else {
-            res.status(401).send("Unauthorized Access");
+            res.createError(401, "Unauthorized Access");
         }
     } catch (error) {
         throw error;

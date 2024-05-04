@@ -40,4 +40,15 @@ const loginUser = async (req, res, next) => {
     }
 };
 
-export { loginUser };
+const logoutUser = async (req, res, next) => {
+    try {
+        res.clearCookie("token");
+        return successResponse(res, {
+            statusCode: 200,
+            message: "User logout successfully",
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+export { loginUser, logoutUser };
