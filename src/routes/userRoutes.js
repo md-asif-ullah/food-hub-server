@@ -3,7 +3,6 @@ import {
     deleteUserById,
     getUsers,
     getuserById,
-    loginUser,
     processForgetPassword,
     processRegister,
     resetUserPassword,
@@ -18,6 +17,7 @@ import {
 } from "../validations/userInputValidation.js";
 import inputErrorhandling from "../middleware/zodInputValidate.js";
 import { isAdmin, isLoggedIn } from "../middleware/auth.js";
+import { loginUser } from "../controllers/AuthController.js";
 
 const userRouter = express.Router();
 
