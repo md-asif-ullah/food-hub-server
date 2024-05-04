@@ -1,8 +1,12 @@
 import express from "express";
 import { userLoginValidation } from "../validations/userInputValidation.js";
 import inputErrorhandling from "../middleware/zodInputValidate.js";
-import { isLoggedOut } from "../middleware/auth.js";
-import { loginUser, logoutUser } from "../controllers/AuthController.js";
+import { isLoggedIn, isLoggedOut } from "../middleware/auth.js";
+import {
+    loginUser,
+    logoutUser,
+    refreshToken,
+} from "../controllers/AuthController.js";
 
 const authRoutes = express.Router();
 
@@ -13,6 +17,7 @@ authRoutes.post(
     loginUser
 );
 
-authRoutes.get("/logout", logoutUser);
+authRoutes.get("/logout", isLoggedIn, logoutUser);
+authRoutes.get("/refresh-token", isLoggedIn, refreshToken);
 
 export default authRoutes;

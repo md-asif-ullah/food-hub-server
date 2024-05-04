@@ -8,12 +8,12 @@ const isLoggedIn = (req, res, next) => {
         if (token) {
             const decoded = jwt.verify(token, process.env.JWT_lOGIN_SECRET);
             if (!decoded) {
-                res.createError(401, "Unauthorized Access");
+                throw createError(401, "Unauthorized Access");
             }
             req.user = decoded.user;
             next();
         } else {
-            res.createError(401, "Unauthorized Access");
+            throw createError(404, "something went wrong");
         }
     } catch (error) {
         throw error;

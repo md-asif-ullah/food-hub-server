@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import User from "../models/usermodel.js";
 import { errorResponse, successResponse } from "./responcesController.js";
 import createJwt from "../helper/createJwt.js";
+import jwt from "jsonwebtoken";
 
 const loginUser = async (req, res, next) => {
     try {
@@ -24,10 +25,28 @@ const loginUser = async (req, res, next) => {
             });
         }
 
+        if (user.isBanned) {
+            return errorResponse(res, {
+                statusCode: 400,
+                message: "User is banned , please contact to authorizations",
+            });
+        }
+
         const token = createJwt({ user }, process.env.JWT_lOGIN_SECRET, "1h");
 
         res.cookie("token", token, {
             maxAge: 3600000,
+            httpOnly: true,
+        });
+
+        const refreshToken = createJwt(
+            { user },
+            process.env.JWT_REFRESHTOKEN_SECRET,
+            "7d"
+        );
+
+        res.cookie("refreshToken", refreshToken, {
+            maxAge: 604800000,
             httpOnly: true,
         });
 
@@ -51,4 +70,41 @@ const logoutUser = async (req, res, next) => {
         return next(error);
     }
 };
-export { loginUser, logoutUser };
+
+const refreshToken = async (req, res, next) => {
+    try {
+        const oldRefreshToken = req.cookies.refreshToken;
+
+        const decodedToken = jwt.verify(
+            oldRefreshToken,
+            process.env.JWT_REFRESHTOKEN_SECRET
+        );
+
+        if (!decodedToken) {
+            return errorResponse(res, {
+                statusCode: 400,
+                message: "Invalid refresh token",
+            });
+        }
+
+        const token = createJwt(
+            decodedToken.user,
+            process.env.JWT_lOGIN_SECRET,
+            "1h"
+        );
+
+        res.cookie("token", token, {
+            maxAge: 3600000,
+            httpOnly: true,
+        });
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "Token refreshed successfully",
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export { loginUser, logoutUser, refreshToken };
