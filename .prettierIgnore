@@ -1,0 +1,20 @@
+# Directories
+.vscode/
+.idea/
+node_modules/
+dist/
+coverage/
+build/
+public/
+
+# Files
+.env
+.env*
+.gitignore
+.DS_Store
+*.lock
+package.lock.json
+*.log
+*.log.*
+*.swp
+Thumbs.db

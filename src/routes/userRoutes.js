@@ -13,18 +13,19 @@ import {
 } from "../controllers/usercontrollers.js";
 import { userRegistrationValidation } from "../validations/userInputValidation.js";
 import inputErrorhandling from "../middleware/zodInputValidate.js";
-import { isAdmin, isLoggedIn } from "../middleware/auth.js";
+import { isAdmin, isLoggedIn, isLoggedOut } from "../middleware/auth.js";
 
 const userRouter = express.Router();
 
 userRouter.get("/seed", seedUser);
 userRouter.get("/", isLoggedIn, isAdmin, getUsers);
 userRouter.get("/:id", getuserById);
-userRouter.delete("/:id", deleteUserById);
-userRouter.put("/:id", updateUserById);
+userRouter.delete("/:id", isLoggedIn, isAdmin, deleteUserById);
+userRouter.put("/:id", isLoggedIn, updateUserById);
 userRouter.post(
     "/process-register",
     inputErrorhandling(userRegistrationValidation),
+    isLoggedOut,
     processRegister
 );
 userRouter.post("/vefity", verifyUser);
