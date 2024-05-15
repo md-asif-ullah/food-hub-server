@@ -8,6 +8,8 @@ import userRouter from "./routes/userRoutes.js";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/AuthRoutes.js";
 import { errorResponse } from "./controllers/responcesController.js";
+import contactRouter from "./routes/ConteactRoutes.js";
+
 const app = express();
 
 const limiter = rateLimit({
@@ -32,6 +34,7 @@ app.get("/", (req, res) => {
 });
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRoutes);
+app.use("/api/contact", contactRouter);
 
 //error handling middleware
 

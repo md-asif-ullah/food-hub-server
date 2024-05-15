@@ -140,6 +140,7 @@ const processRegister = async (req, res, next) => {
         }
 
         const mailData = {
+            from: process.env.SMTP_USERNAME,
             to: email,
             subject: "Email Verification",
             html: `<h3>Use this verification code below to sign up</h3>
@@ -227,6 +228,7 @@ const processForgetPassword = async (req, res, next) => {
         await user.save();
 
         const mailData = {
+            from: process.env.SMTP_USERNAME,
             to: email,
             subject: "Reset Password",
             html: `<h3>Use this verification code below to reset your password</h3>
