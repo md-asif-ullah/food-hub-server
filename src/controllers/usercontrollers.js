@@ -108,7 +108,7 @@ const updateUserById = async (req, res, next) => {
 const processRegister = async (req, res, next) => {
     try {
         const verificationCode = Math.floor(100000 + Math.random() * 900000);
-        const verificationCodeExpires = Date.now() + Date.now() + 120000;
+        const verificationCodeExpires = Date.now() + 120000;
 
         const { name, email, password } = req.body;
 
@@ -116,7 +116,7 @@ const processRegister = async (req, res, next) => {
             email,
         });
         if (userExistVerified) {
-            if (userExistVerified.isVarified) {
+            if (userExistVerified.isVerified) {
                 return errorResponse(res, {
                     statusCode: 400,
                     message: "User already exist with this email. Please login",
@@ -170,30 +170,31 @@ const verifyUser = async (req, res, next) => {
     try {
         const { email, verificationCode } = req.body;
 
-        const varifiedUser = await User.findOne({ email });
+        const existUser = await User.findOne({ email });
 
-        if (!varifiedUser) {
+        if (!existUser) {
             return errorResponse(res, {
                 statusCode: 404,
                 message: "User not found",
             });
         }
 
-        if (varifiedUser.verificationCode !== verificationCode) {
+        if (existUser.verificationCode !== verificationCode) {
             return errorResponse(res, {
                 statusCode: 400,
                 message: "Invalid verification code",
             });
         }
-        if (varifiedUser.verificationCodeExpires < Date.now()) {
+        if (existUser.verificationCodeExpires < Date.now()) {
             return errorResponse(res, {
                 statusCode: 400,
                 message: "Verification code expired",
             });
         }
-        varifiedUser.isVarified = true;
 
-        await varifiedUser.save();
+        existUser.isVerified = true;
+
+        await existUser.save();
 
         return successResponse(res, {
             statusCode: 200,

@@ -44,9 +44,9 @@ const userSchema = new mongoose.Schema(
             type: String,
         },
         verificationCodeExpires: {
-            type: Date,
+            type: Number,
         },
-        isVarified: {
+        isVerified: {
             type: Boolean,
             default: false,
         },
