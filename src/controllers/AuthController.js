@@ -31,6 +31,12 @@ const loginUser = async (req, res, next) => {
                 message: "User is banned , please contact to authorizations",
             });
         }
+        if (!user.isVerified) {
+            return errorResponse(res, {
+                statusCode: 400,
+                message: "User is not verified",
+            });
+        }
 
         const token = createJwt({ user }, process.env.JWT_lOGIN_SECRET, "1h");
 
@@ -50,9 +56,13 @@ const loginUser = async (req, res, next) => {
             httpOnly: true,
         });
 
+        const withOutPassword = user.toObject();
+        delete withOutPassword.password;
+
         return successResponse(res, {
             statusCode: 200,
             message: "User login successfully",
+            payload: withOutPassword,
         });
     } catch (error) {
         return next(error);
