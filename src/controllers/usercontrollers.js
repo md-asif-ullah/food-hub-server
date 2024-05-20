@@ -1,23 +1,6 @@
-import users from "../data.js";
 import sendUserMail from "../helper/sendMail.js";
 import User from "../models/usermodel.js";
 import { errorResponse, successResponse } from "./responcesController.js";
-
-const seedUser = async (req, res, next) => {
-    try {
-        await User.deleteMany();
-
-        const user = await User.insertMany(users);
-
-        return successResponse(res, {
-            statusCode: 201,
-            message: "Users seeded successfully",
-            payload: user,
-        });
-    } catch (error) {
-        return next(error);
-    }
-};
 
 const getUsers = async (req, res, next) => {
     try {
@@ -317,7 +300,6 @@ const resetUserPassword = async (req, res, next) => {
 };
 
 export {
-    seedUser,
     getUsers,
     getuserById,
     deleteUserById,

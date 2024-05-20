@@ -6,7 +6,6 @@ import {
     processForgetPassword,
     processRegister,
     resetUserPassword,
-    seedUser,
     updateUserById,
     verifyForgetPassword,
     verifyUser,
@@ -17,7 +16,6 @@ import { isAdmin, isLoggedIn, isLoggedOut } from "../middleware/auth.js";
 
 const userRouter = express.Router();
 
-userRouter.get("/seed", seedUser);
 userRouter.get("/", isLoggedIn, isAdmin, getUsers);
 userRouter.get("/:id", getuserById);
 userRouter.delete("/:id", isLoggedIn, isAdmin, deleteUserById);
