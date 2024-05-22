@@ -40,6 +40,10 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please enter product category"],
     },
+    rating: {
+        type: Number,
+        default: 0,
+    },
 });
 
 const Product = mongoose.model("Product", productSchema);

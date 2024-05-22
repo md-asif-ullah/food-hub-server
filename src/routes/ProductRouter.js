@@ -1,8 +1,9 @@
 import express from "express";
-import { seeProduct } from "../controllers/ProductController";
+import { createProduct } from "../controllers/ProductController.js";
+import upload from "../helper/uploadMulter.js";
 
 const ProductRouter = express.Router();
 
-ProductRouter.get("/seed", seeProduct);
+ProductRouter.post("/", upload.single("image"), createProduct);
 
 export default ProductRouter;
