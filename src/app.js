@@ -14,11 +14,11 @@ import ProductRouter from "./routes/ProductRouter.js";
 
 const app = express();
 
-const limiter = rateLimit({
-    windowMs: 5 * 60 * 1000,
-    limit: 5,
-    message: "Too many requests , please try again after 5 minutes.",
-});
+// const limiter = rateLimit({
+//     windowMs: 5 * 60 * 1000,
+//     limit: 5,
+//     message: "Too many requests , please try again after 5 minutes.",
+// });
 
 //middleware
 app.use(express.json());
@@ -26,7 +26,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(morgan("dev"));
-app.use(limiter);
+// app.use(limiter);
 app.use(cookieParser());
 
 //routes
