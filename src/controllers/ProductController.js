@@ -99,4 +99,24 @@ const getProducts = async (req, res, next) => {
     }
 };
 
-export { createProduct, getProducts };
+const getProductById = async (req, res, next) => {
+    try {
+        const product = await Product.findById(req.params.id);
+        if (!product) {
+            return next({
+                statusCode: 404,
+                message: "Product not found",
+            });
+        }
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "Product fetched successfully",
+            payload: product,
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export { createProduct, getProducts, getProductById };
