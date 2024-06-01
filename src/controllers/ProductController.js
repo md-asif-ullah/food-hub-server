@@ -119,4 +119,17 @@ const getProductById = async (req, res, next) => {
     }
 };
 
-export { createProduct, getProducts, getProductById };
+const popularProduct = async (req, res, next) => {
+    try {
+        const products = await Product.find().sort({ rating: -1 }).limit(4);
+        return successResponse(res, {
+            statusCode: 200,
+            message: "Popular products fetched successfully",
+            payload: products,
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export { createProduct, getProducts, getProductById, popularProduct };
