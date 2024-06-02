@@ -11,6 +11,7 @@ import { errorResponse } from "./controllers/responcesController.js";
 import contactRouter from "./routes/ConteactRoutes.js";
 import seedRouter from "./routes/seedRoutes.js";
 import ProductRouter from "./routes/ProductRouter.js";
+import cartProductRouter from "./routes/cartProductRoutes.js";
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/contact", contactRouter);
 app.use("/api/seed", seedRouter);
 app.use("/api/products", ProductRouter);
+app.use("/api/addtocart", cartProductRouter);
 
 //error handling middleware
 
