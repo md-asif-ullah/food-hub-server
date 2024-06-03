@@ -40,7 +40,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/contact", contactRouter);
 app.use("/api/seed", seedRouter);
 app.use("/api/products", ProductRouter);
-app.use("/api/addtocart", cartProductRouter);
+app.use("/api/cartProducts", cartProductRouter);
 
 //error handling middleware
 

@@ -29,4 +29,40 @@ const addtoCart = async (req, res, next) => {
     }
 };
 
-export { addtoCart };
+const getCartProducts = async (req, res, next) => {
+    try {
+        const cartProducts = await CartProduct.find();
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "Cart products fetched successfully.",
+            payload: cartProducts,
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+const deleteCartProduct = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        const cartProduct = await CartProduct.findByIdAndDelete(id);
+
+        if (!cartProduct) {
+            return errorResponse(res, {
+                statusCode: 404,
+                message: "Product not found in cart.",
+            });
+        }
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "Product removed from cart successfully.",
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export { addtoCart, getCartProducts, deleteCartProduct };
