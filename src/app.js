@@ -12,6 +12,7 @@ import contactRouter from "./routes/ConteactRoutes.js";
 import seedRouter from "./routes/seedRoutes.js";
 import ProductRouter from "./routes/ProductRouter.js";
 import cartProductRouter from "./routes/cartProductRoutes.js";
+import reviewsRouter from "./routes/ReviewRoutes.js";
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use("/api/contact", contactRouter);
 app.use("/api/seed", seedRouter);
 app.use("/api/products", ProductRouter);
 app.use("/api/cartProducts", cartProductRouter);
+app.use("/api/reviews", reviewsRouter);
 
 //error handling middleware
 
