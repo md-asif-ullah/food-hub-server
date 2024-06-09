@@ -29,6 +29,9 @@ const userSchema = new mongoose.Schema(
         address: {
             type: String,
         },
+        birthday: {
+            type: String,
+        },
         phone: {
             type: String,
         },

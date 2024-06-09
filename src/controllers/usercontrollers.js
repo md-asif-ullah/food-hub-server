@@ -60,7 +60,7 @@ const updateUserById = async (req, res, next) => {
         const updated = {};
 
         for (let key in req.body) {
-            if (["name", "password", "address", "phone"].includes(key)) {
+            if (["name", "password", "address", "birthday"].includes(key)) {
                 updated[key] = req.body[key];
             }
         }
