@@ -4,7 +4,7 @@ import { successResponse } from "./responcesController.js";
 
 const createProduct = async (req, res, next) => {
     try {
-        const { name, price, description, category, quantity, shipping } =
+        const { name, price, description, category, discount, quantity } =
             req.body;
         const image = req.file;
 
@@ -18,9 +18,11 @@ const createProduct = async (req, res, next) => {
             description,
             category,
             quantity,
-            shipping,
+            discount,
+            quantity,
             image: uploadResult.secure_url,
         });
+
         const product = await Product.create(newProduct);
 
         return successResponse(res, {
