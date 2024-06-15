@@ -65,4 +65,46 @@ const deleteCartProduct = async (req, res, next) => {
     }
 };
 
-export { addtoCart, getCartProducts, deleteCartProduct };
+const updateCartProductQuantity = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const quantity = req.body;
+
+        if (!quantity) {
+            return res.status(400).json({
+                statusCode: 400,
+                message: "Invalid product data provided.",
+            });
+        }
+
+        const updatedProductQuantity = await CartProduct.findByIdAndUpdate(
+            id,
+            quantity,
+            {
+                new: true,
+                runValidators: true,
+            }
+        );
+
+        if (!updatedProductQuantity) {
+            return res.status(404).json({
+                statusCode: 404,
+                message: "Product not found in cart.",
+            });
+        }
+
+        return res.status(200).json({
+            statusCode: 200,
+            message: "Product quantity updated successfully.",
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export {
+    addtoCart,
+    getCartProducts,
+    deleteCartProduct,
+    updateCartProductQuantity,
+};

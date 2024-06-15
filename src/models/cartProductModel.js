@@ -12,6 +12,7 @@ const CartProductSchema = new mongoose.Schema({
     },
     quantity: {
         type: Number,
+        default: 1,
     },
     image: {
         type: String,
