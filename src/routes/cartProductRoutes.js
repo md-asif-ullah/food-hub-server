@@ -16,7 +16,7 @@ cartProductRouter.use(
 );
 
 cartProductRouter.post("/", isLoggedIn, addtoCart);
-cartProductRouter.get("/", isLoggedIn, getCartProducts);
+cartProductRouter.get("/:id", isLoggedIn, getCartProducts);
 cartProductRouter.delete("/:id", isLoggedIn, deleteCartProduct);
 
 export default cartProductRouter;

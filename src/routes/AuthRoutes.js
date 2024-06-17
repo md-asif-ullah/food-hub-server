@@ -17,7 +17,7 @@ authRoutes.post(
     loginUser
 );
 
-authRoutes.get("/logout", isLoggedIn, logoutUser);
+authRoutes.post("/logout", isLoggedIn, logoutUser);
 authRoutes.get("/refresh-token", isLoggedIn, refreshToken);
 
 export default authRoutes;

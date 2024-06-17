@@ -31,7 +31,10 @@ const addtoCart = async (req, res, next) => {
 
 const getCartProducts = async (req, res, next) => {
     try {
-        const cartProducts = await CartProduct.find();
+        const { id } = req.params;
+        const cartProducts = await CartProduct.find({ userId: id }).select(
+            "-userId"
+        );
 
         return successResponse(res, {
             statusCode: 200,
