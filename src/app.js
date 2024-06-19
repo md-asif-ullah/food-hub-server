@@ -13,6 +13,7 @@ import seedRouter from "./routes/seedRoutes.js";
 import ProductRouter from "./routes/ProductRouter.js";
 import cartProductRouter from "./routes/cartProductRoutes.js";
 import reviewsRouter from "./routes/ReviewRoutes.js";
+import favouriteProductRouter from "./routes/FavouriteProductRoutes.js";
 
 const app = express();
 
@@ -43,6 +44,7 @@ app.use("/api/seed", seedRouter);
 app.use("/api/products", ProductRouter);
 app.use("/api/cartProducts", cartProductRouter);
 app.use("/api/reviews", reviewsRouter);
+app.use("/api/favourite", favouriteProductRouter);
 
 //error handling middleware
 
