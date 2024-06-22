@@ -3,13 +3,44 @@ import User from "../models/usermodel.js";
 import { errorResponse, successResponse } from "./responcesController.js";
 
 const getUsers = async (req, res, next) => {
+    const search = req.query.search || "";
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+
+    console.log(search, typeof page, typeof limit);
+
+    const searchRegex = new RegExp(".*" + search + ".*", "i");
+
+    const filter = {
+        $or: [
+            { name: { $regex: searchRegex } },
+            { email: { $regex: searchRegex } },
+            { phone: { $regex: searchRegex } },
+        ],
+    };
+
     try {
-        const users = await User.find().select("-password");
+        const users = await User.find(filter)
+            .select("-password")
+            .limit(limit * 1)
+            .skip((page - 1) * limit);
+
+        const totalProducts = await User.countDocuments();
 
         return successResponse(res, {
             statusCode: 200,
             message: "Users fetched successfully",
-            payload: users,
+            payload: {
+                users,
+                pagination: {
+                    totalPages: Math.ceil(totalProducts / limit),
+                    prevoiusPage: page - 1 > 0 ? page - 1 : null,
+                    nextPage:
+                        page + 1 <= Math.ceil(totalProducts / limit)
+                            ? page + 1
+                            : null,
+                },
+            },
         });
     } catch (error) {
         return next(error);
@@ -60,7 +91,17 @@ const updateUserById = async (req, res, next) => {
         const updated = {};
 
         for (let key in req.body) {
-            if (["name", "password", "address", "birthday"].includes(key)) {
+            if (
+                [
+                    "name",
+                    "password",
+                    "address",
+                    "birthday",
+                    "phone",
+                    "isAdmin",
+                    "isBanned",
+                ].includes(key)
+            ) {
                 updated[key] = req.body[key];
             }
         }
