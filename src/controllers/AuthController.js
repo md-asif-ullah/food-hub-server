@@ -99,7 +99,7 @@ const refreshToken = async (req, res, next) => {
         }
 
         const token = createJwt(
-            decodedToken.user,
+            { user: decodedToken.user },
             process.env.JWT_lOGIN_SECRET,
             "1h"
         );

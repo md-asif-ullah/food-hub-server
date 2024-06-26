@@ -13,7 +13,7 @@ const isLoggedIn = (req, res, next) => {
             req.user = decoded.user;
             next();
         } else {
-            throw createError(404, "please login first");
+            throw createError(401, "Unauthorized Access");
         }
     } catch (error) {
         throw error;
