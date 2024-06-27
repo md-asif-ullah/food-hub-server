@@ -27,4 +27,26 @@ const addOrder = async (req, res, next) => {
     }
 };
 
-export { addOrder };
+const getOrderByUserId = async (req, res, next) => {
+    try {
+        const userId = req.params.id;
+        const orders = await Order.find({ userId }).select("-userId");
+
+        if (!orders) {
+            return errorResponse(res, {
+                statusCode: 400,
+                message: "No orders found",
+            });
+        }
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "Orders found",
+            payload: orders,
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export { addOrder, getOrderByUserId };

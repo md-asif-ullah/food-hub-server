@@ -8,6 +8,7 @@ const addtoCart = async (req, res, next) => {
         const existProduct = await CartProduct.findOne({
             name: cartProduct.name,
             size: cartProduct.size,
+            userId: cartProduct.userId,
         });
 
         if (existProduct) {
