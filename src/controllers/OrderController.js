@@ -49,4 +49,52 @@ const getOrderByUserId = async (req, res, next) => {
     }
 };
 
-export { addOrder, getOrderByUserId };
+const getOrders = async (req, res, next) => {
+    try {
+        const orders = await Order.find().select("-userId");
+
+        if (!orders) {
+            return errorResponse(res, {
+                statusCode: 400,
+                message: "No orders found",
+            });
+        }
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "Orders found",
+            payload: orders,
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+const updateOrderStatus = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+
+        const updatedOrdr = await Order.findByIdAndUpdate(
+            id,
+            { status: req.body.status },
+            { new: true }
+        ).select("-userId");
+
+        if (!updatedOrdr) {
+            return errorResponse(res, {
+                statusCode: 400,
+                message: "Order update failed",
+            });
+        }
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "Order updated successfully",
+            payload: updatedOrdr,
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export { addOrder, getOrderByUserId, getOrders, updateOrderStatus };
