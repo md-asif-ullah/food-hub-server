@@ -97,4 +97,32 @@ const updateOrderStatus = async (req, res, next) => {
     }
 };
 
-export { addOrder, getOrderByUserId, getOrders, updateOrderStatus };
+const deleteOrder = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const order = await Order.findByIdAndDelete(id);
+
+        if (!order) {
+            return errorResponse(res, {
+                statusCode: 400,
+                message: "Order delete failed",
+            });
+        }
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "Order deleted successfully",
+            payload: order,
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export {
+    addOrder,
+    getOrderByUserId,
+    getOrders,
+    updateOrderStatus,
+    deleteOrder,
+};
