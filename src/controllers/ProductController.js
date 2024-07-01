@@ -206,6 +206,40 @@ const updateProduct = async (req, res, next) => {
     }
 };
 
+const deleteProduct = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const product = await Product.findById(id);
+        if (!product) {
+            return next({
+                statusCode: 404,
+                message: "Product not found",
+            });
+        }
+
+        // Delete the previous image from cloudinary
+
+        if (product.image) {
+            const publicId = product.image.split("/").pop().split(".")[0];
+            console.log(publicId);
+            await cloudinary.uploader.destroy(
+                `food-hub-product-img/${publicId}`
+            );
+        }
+
+        // Delete the product
+
+        await Product.findByIdAndDelete(id);
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "Product deleted successfully",
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
 export {
     createProduct,
     getProducts,
@@ -213,4 +247,5 @@ export {
     popularProduct,
     getProductsForAdmin,
     updateProduct,
+    deleteProduct,
 };
