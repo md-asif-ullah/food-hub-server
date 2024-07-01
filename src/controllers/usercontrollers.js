@@ -7,8 +7,6 @@ const getUsers = async (req, res, next) => {
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 10;
 
-    console.log(search, typeof page, typeof limit);
-
     const searchRegex = new RegExp(".*" + search + ".*", "i");
 
     const filter = {

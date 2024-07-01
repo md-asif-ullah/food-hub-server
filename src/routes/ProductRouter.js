@@ -3,7 +3,9 @@ import {
     createProduct,
     getProductById,
     getProducts,
+    getProductsForAdmin,
     popularProduct,
+    updateProduct,
 } from "../controllers/ProductController.js";
 import upload from "../helper/uploadMulter.js";
 import { isAdmin, isLoggedIn } from "../middleware/auth.js";
@@ -13,6 +15,8 @@ import { productValidation } from "../validations/productInputValidation.js";
 const ProductRouter = express.Router();
 
 ProductRouter.get("/popular", popularProduct);
+ProductRouter.get("/admin", isLoggedIn, isAdmin, getProductsForAdmin);
+ProductRouter.put("/update/:id", upload.single("image"), updateProduct);
 
 ProductRouter.post(
     "/",

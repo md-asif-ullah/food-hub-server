@@ -1,4 +1,4 @@
-import cloudinary from "../helper/uploadToCloudinary.js";
+import cloudinary from "../helper/CloudinaryConfig.js";
 import Product from "../models/productModel.js";
 import { successResponse } from "./responcesController.js";
 
@@ -134,4 +134,83 @@ const popularProduct = async (req, res, next) => {
     }
 };
 
-export { createProduct, getProducts, getProductById, popularProduct };
+const getProductsForAdmin = async (req, res, next) => {
+    try {
+        const search = req.query.search || "";
+
+        const regex = new RegExp(search, "i");
+
+        const filter = {
+            $or: [{ name: { $regex: regex } }, { category: { $regex: regex } }],
+        };
+
+        const products = await Product.find(filter);
+        return successResponse(res, {
+            statusCode: 200,
+            message: "All products fetched successfully",
+            payload: products,
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+const updateProduct = async (req, res, next) => {
+    try {
+        const image = req.file;
+        const id = req.params.id;
+        const product = await Product.findById(id);
+        if (!product) {
+            return next({
+                statusCode: 404,
+                message: "Product not found",
+            });
+        }
+
+        // Delete the previous image from cloudinary
+
+        if (product.image) {
+            const publicId = product.image.split("/").pop().split(".")[0];
+            console.log(publicId);
+            await cloudinary.uploader.destroy(
+                `food-hub-product-img/${publicId}`
+            );
+        }
+
+        // Update the product
+
+        const update = {};
+
+        for (const key in req.body) {
+            if (req.body[key]) {
+                update[key] = req.body[key];
+            }
+        }
+
+        if (image) {
+            const uploadResult = await cloudinary.uploader.upload(image.path, {
+                folder: "food-hub-product-img",
+            });
+            update.image = uploadResult.secure_url;
+        }
+
+        const newProduct = await Product.findByIdAndUpdate(id, update);
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "Product updated successfully",
+            payload: newProduct,
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export {
+    createProduct,
+    getProducts,
+    getProductById,
+    popularProduct,
+    getProductsForAdmin,
+    updateProduct,
+};
