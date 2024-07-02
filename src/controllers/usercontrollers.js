@@ -92,7 +92,7 @@ const updateUserById = async (req, res, next) => {
             if (
                 [
                     "name",
-                    "password",
+                    "email",
                     "address",
                     "birthday",
                     "phone",
@@ -192,7 +192,7 @@ const verifyUser = async (req, res, next) => {
     try {
         const { email, verificationCode } = req.body;
 
-        const existUser = await User.findOne({ email });
+        const existUser = await User.findOne({ email }).select("-password");
 
         if (!existUser) {
             return errorResponse(res, {

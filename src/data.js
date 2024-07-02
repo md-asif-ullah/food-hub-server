@@ -24,6 +24,131 @@ const users = [
         email: "emily.brown@example.com",
         password: "BrownE!987",
     },
+    {
+        name: "Charlie Green",
+        email: "charlie.green@example.com",
+        password: "GreenP@ss123",
+    },
+    {
+        name: "Diana White",
+        email: "diana.white@example.com",
+        password: "WhiteSecure1!",
+    },
+    {
+        name: "Ethan Black",
+        email: "ethan.black@example.com",
+        password: "BlackP@ssw0rd",
+    },
+    {
+        name: "Fiona Blue",
+        email: "fiona.blue@example.com",
+        password: "Blue123P@ss",
+    },
+    {
+        name: "George Gray",
+        email: "george.gray@example.com",
+        password: "GrayP@ssw0rd!",
+    },
+    {
+        name: "Hannah Yellow",
+        email: "hannah.yellow@example.com",
+        password: "Yellow123!",
+    },
+    {
+        name: "Ian Silver",
+        email: "ian.silver@example.com",
+        password: "SilverP@ss1!",
+    },
+    {
+        name: "Jenna Gold",
+        email: "jenna.gold@example.com",
+        password: "GoldP@ssw0rd!",
+    },
+    {
+        name: "Kevin Pink",
+        email: "kevin.pink@example.com",
+        password: "PinkSecure!1",
+    },
+    {
+        name: "Laura Purple",
+        email: "laura.purple@example.com",
+        password: "PurpleP@ss123",
+    },
+    {
+        name: "Michael Orange",
+        email: "michael.orange@example.com",
+        password: "OrangeP@ss1!",
+    },
+    {
+        name: "Nina Violet",
+        email: "nina.violet@example.com",
+        password: "VioletP@ssw0rd",
+    },
+    {
+        name: "Oscar Red",
+        email: "oscar.red@example.com",
+        password: "Red123Secure!",
+    },
+    {
+        name: "Paul Cyan",
+        email: "paul.cyan@example.com",
+        password: "CyanP@ss123!",
+    },
+    {
+        name: "Quincy Amber",
+        email: "quincy.amber@example.com",
+        password: "AmberP@ss1!",
+    },
+    {
+        name: "Rachel Lime",
+        email: "rachel.lime@example.com",
+        password: "LimeP@ssw0rd!",
+    },
+    {
+        name: "Sam Magenta",
+        email: "sam.magenta@example.com",
+        password: "Magenta123P@ss",
+    },
+    {
+        name: "Tina Coral",
+        email: "tina.coral@example.com",
+        password: "CoralSecure1!",
+    },
+    {
+        name: "Uma Indigo",
+        email: "uma.indigo@example.com",
+        password: "IndigoP@ss123",
+    },
+    {
+        name: "Victor Turquoise",
+        email: "victor.turquoise@example.com",
+        password: "TurquoiseP@ss1!",
+    },
+    {
+        name: "Wendy Bronze",
+        email: "wendy.bronze@example.com",
+        password: "BronzeP@ssw0rd",
+    },
+    {
+        name: "Xander Emerald",
+        email: "xander.emerald@example.com",
+        password: "Emerald123!",
+    },
+    {
+        name: "Yara Teal",
+        email: "yara.teal@example.com",
+        password: "TealP@ssw0rd!",
+    },
+    {
+        name: "Zack Ruby",
+        email: "zack.ruby@example.com",
+        password: "RubySecure1!",
+    },
+    {
+        name: "Abby Jade",
+        email: "abby.jade@example.com",
+        password: "JadeP@ss123",
+    },
 ];
 
 const products = [

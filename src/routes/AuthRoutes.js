@@ -3,6 +3,7 @@ import { userLoginValidation } from "../validations/userInputValidation.js";
 import inputErrorhandling from "../middleware/zodInputValidate.js";
 import { isLoggedIn, isLoggedOut } from "../middleware/auth.js";
 import {
+    SocialLogin,
     loginUser,
     logoutUser,
     refreshToken,
@@ -16,7 +17,7 @@ authRoutes.post(
     inputErrorhandling(userLoginValidation),
     loginUser
 );
-
+authRoutes.post("/social-login", SocialLogin);
 authRoutes.post("/logout", isLoggedIn, logoutUser);
 authRoutes.get("/refresh-token", refreshToken);
 

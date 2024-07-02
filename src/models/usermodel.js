@@ -19,7 +19,6 @@ const userSchema = new mongoose.Schema(
         },
         password: {
             type: String,
-            required: [true, "Password is required"],
             set: (value) => bcrypt.hashSync(value, 8),
         },
         image: {

@@ -118,4 +118,60 @@ const refreshToken = async (req, res, next) => {
     }
 };
 
-export { loginUser, logoutUser, refreshToken };
+const SocialLogin = async (req, res, next) => {
+    try {
+        const { email, name, image } = req.body;
+
+        const user = await User.findOne({ email });
+
+        if (user.isBanned) {
+            return errorResponse(res, {
+                statusCode: 400,
+                message: "User is banned , please contact to authorizations",
+            });
+        }
+
+        const newUser = new User({
+            email,
+            name,
+            image,
+            isVerified: true,
+        });
+
+        if (!user) {
+            await newUser.save();
+        }
+
+        const token = createJwt(
+            { user: newUser },
+            process.env.JWT_lOGIN_SECRET,
+            "1h"
+        );
+
+        res.cookie("token", token, {
+            maxAge: 3600000,
+            httpOnly: true,
+        });
+
+        const refreshToken = createJwt(
+            { user: newUser },
+            process.env.JWT_REFRESHTOKEN_SECRET,
+            "7d"
+        );
+
+        res.cookie("refreshToken", refreshToken, {
+            maxAge: 604800000,
+            httpOnly: true,
+        });
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "User login successfully",
+            payload: newUser,
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export { loginUser, logoutUser, refreshToken, SocialLogin };
