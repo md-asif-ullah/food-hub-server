@@ -26,7 +26,11 @@ const app = express();
 
 //middleware
 app.use(express.json());
-app.use(cors());
+app.use(
+    cors({
+        origin: "https://food-hub-client-kappa.vercel.app",
+    })
+);
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(morgan("dev"));
