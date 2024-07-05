@@ -4,9 +4,11 @@ import { errorResponse, successResponse } from "./responcesController.js";
 
 const AddFavoriteProduct = async (req, res, next) => {
     try {
-        const { product_id } = req.body;
+        const { product_id, userId } = req.body;
+
         const existingProduct = await FavouriteProduct.findOne({
             product_id,
+            userId,
         });
         if (existingProduct) {
             return errorResponse(res, {
