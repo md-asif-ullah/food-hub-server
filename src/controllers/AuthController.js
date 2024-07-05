@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import User from "../models/usermodel.js";
 import { errorResponse, successResponse } from "./responcesController.js";
 import createJwt from "../helper/createJwt.js";
+import "dotenv/config";
 import jwt from "jsonwebtoken";
 
 const loginUser = async (req, res, next) => {

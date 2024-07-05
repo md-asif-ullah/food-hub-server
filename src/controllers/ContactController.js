@@ -1,5 +1,6 @@
 import sendUserMail from "../helper/sendMail.js";
 import { errorResponse, successResponse } from "./responcesController.js";
+import "dotenv/config";
 
 const userContectInfo = async (req, res, next) => {
     const { name, email, message } = req.body;

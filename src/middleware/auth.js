@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import createError from "http-errors";
+import "dotenv/config";
 
 const isLoggedIn = (req, res, next) => {
     try {

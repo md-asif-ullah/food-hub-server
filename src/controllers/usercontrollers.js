@@ -1,6 +1,7 @@
 import sendUserMail from "../helper/sendMail.js";
 import User from "../models/usermodel.js";
 import { errorResponse, successResponse } from "./responcesController.js";
+import "dotenv/config";
 
 const getUsers = async (req, res, next) => {
     const search = req.query.search || "";
