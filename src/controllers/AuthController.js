@@ -44,6 +44,8 @@ const loginUser = async (req, res, next) => {
         res.cookie("token", token, {
             maxAge: 3600000,
             httpOnly: true,
+            secure: true,
+            sameSite: "none",
         });
 
         const refreshToken = createJwt(
@@ -55,6 +57,8 @@ const loginUser = async (req, res, next) => {
         res.cookie("refreshToken", refreshToken, {
             maxAge: 604800000,
             httpOnly: true,
+            secure: true,
+            sameSite: "none",
         });
 
         const withOutPassword = user.toObject();
@@ -108,6 +112,8 @@ const refreshToken = async (req, res, next) => {
         res.cookie("token", token, {
             maxAge: 3600000,
             httpOnly: true,
+            secure: true,
+            sameSite: "none",
         });
 
         return successResponse(res, {
@@ -152,6 +158,8 @@ const SocialLogin = async (req, res, next) => {
         res.cookie("token", token, {
             maxAge: 3600000,
             httpOnly: true,
+            secure: true,
+            sameSite: "none",
         });
 
         const refreshToken = createJwt(
@@ -163,6 +171,8 @@ const SocialLogin = async (req, res, next) => {
         res.cookie("refreshToken", refreshToken, {
             maxAge: 604800000,
             httpOnly: true,
+            secure: true,
+            sameSite: "none",
         });
 
         return successResponse(res, {
