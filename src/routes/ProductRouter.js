@@ -16,7 +16,7 @@ import { productValidation } from "../validations/productInputValidation.js";
 const ProductRouter = express.Router();
 
 ProductRouter.get("/popular", popularProduct);
-ProductRouter.get("/admin", isLoggedIn, isAdmin, getProductsForAdmin);
+ProductRouter.get("/admin", getProductsForAdmin);
 ProductRouter.put("/update/:id", upload.single("image"), updateProduct);
 
 ProductRouter.post(
