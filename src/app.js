@@ -15,7 +15,6 @@ import cartProductRouter from "./routes/cartProductRoutes.js";
 import reviewsRouter from "./routes/ReviewRoutes.js";
 import favouriteProductRouter from "./routes/FavouriteProductRoutes.js";
 import orderRouter from "./routes/OrderRoutes.js";
-import "dotenv/config";
 
 const app = express();
 
@@ -29,7 +28,7 @@ const app = express();
 app.use(express.json());
 app.use(
     cors({
-        origin: process.env.CLIENT_URL,
+        origin: "https://food-hub-flame.vercel.app",
         credentials: true,
     })
 );
