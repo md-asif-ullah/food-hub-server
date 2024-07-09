@@ -15,6 +15,7 @@ import cartProductRouter from "./routes/cartProductRoutes.js";
 import reviewsRouter from "./routes/ReviewRoutes.js";
 import favouriteProductRouter from "./routes/FavouriteProductRoutes.js";
 import orderRouter from "./routes/OrderRoutes.js";
+import "dotenv/config";
 
 const app = express();
 
@@ -24,11 +25,11 @@ const app = express();
 //     message: "Too many requests , please try again after 5 minutes.",
 // });
 
-//middleware
+//middlewares
 app.use(express.json());
 app.use(
     cors({
-        origin: "https://food-hub-client-flame.vercel.app",
+        origin: process.env.CLIENT_URL,
         credentials: true,
     })
 );
