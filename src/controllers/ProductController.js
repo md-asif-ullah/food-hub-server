@@ -19,7 +19,6 @@ const createProduct = async (req, res, next) => {
             category,
             quantity,
             discount,
-            quantity,
             image: uploadResult.secure_url,
         });
 
